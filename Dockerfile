@@ -11,10 +11,12 @@ RUN apk add --update \
   && rm -rf /var/cache/apk/*
 
 ENV HUGO_VERSION 0.32.2
-ENV HUGO_BINARY hugo_${HUGO_VERSION}_linux_amd64
+ENV HUGO_BINARY hugo
 ENV HUGO_RESOURCE hugo_${HUGO_VERSION}_Linux-64bit
 
-ADD https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/${HUGO_RESOURCE}.tar.gz /tmp/
+ADD https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${HUGO_RESOURCE}.tar.gz /tmp
 
-RUN  tar -xvzf /tmp/${HUGO_RESOURCE}.tar.gz -C /tmp/ \
-	&& mv /tmp/${HUGO_BINARY}/${HUGO_BINARY} /usr/bin/hugo && rm -rf /tmp/hugo*
+RUN mkdir -p /tmp/hugo \
+    && tar -xvzf /tmp/${HUGO_RESOURCE}.tar.gz -C /tmp/hugo \
+	&& mv /tmp/hugo/${HUGO_BINARY} /usr/bin/hugo \
+    && rm -rf /tmp/hugo*
